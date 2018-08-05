@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    platform: h2
+    url: jdbc:h2:file:/Users/jisu/Documents/workspace-sts-3.9.4.RELEASE/JoysonMng/main/resources/testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    sql-script-encoding: UTF-8
+ 
