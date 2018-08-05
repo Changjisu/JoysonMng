@@ -53,7 +53,7 @@ public class JoysonMngApplication implements CommandLineRunner{
 				rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name")));
 		
 		
-		System.out.println("result = " + result);
+		System.out.println("result=" + result);
 		
 	}
 }
