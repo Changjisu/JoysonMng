@@ -36,6 +36,7 @@ public class JoysonMngApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
+		
 		/*
 		customerService.save(new Customer(1, "Nobita", "Nobi"));
 		customerService.save(new Customer(2, "Takeshi", "Goda"));
