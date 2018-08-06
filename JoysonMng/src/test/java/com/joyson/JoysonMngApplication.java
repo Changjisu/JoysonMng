@@ -43,14 +43,15 @@ public class JoysonMngApplication implements CommandLineRunner{
 		
 		customerService.findAll().forEach(System.out::println);
 		*/
+		
+		
 		String sql = "SELECT id, first_name, last_name FROM customers WHERE id = :id";
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("id", 1);
 		
 		
 		
-		Customer result = jdbcTemplate.queryForObject(sql, param, (rs, rowNum) -> new Customer(
-				rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name")));
+		Customer result = jdbcTemplate.queryForObject(sql, param, (rs, rowNum) -> new Customer(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name")));
 		
 		
 		System.out.println("result=" + result);
