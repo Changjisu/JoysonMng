@@ -35,10 +35,21 @@ public class JoysonMngApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		Customer created = customerRepository.save(new Customer(null, "Hidetoshi", "Dekisugi"));
-		log.info(created + " is created!");
+		//Customer created = customerRepository.save(new Customer(null, "Hidetoshi", "Dekisugi"));
+		//log.info(created + " is created!");
 		
-		customerRepository.findAll().forEach(System.out::println);
+		customerRepository.deleteAll();
+		
+		customerRepository.save(new Customer(null, "D", "d"));
+		customerRepository.save(new Customer(null, "E", "e"));
+		customerRepository.save(new Customer(null, "F", "f"));
+		customerRepository.save(new Customer(null, "A", "aa"));
+		customerRepository.save(new Customer(null, "B", "b"));
+		customerRepository.save(new Customer(null, "C", "c"));
+		
+		
+		customerRepository.findAllOrderByName().forEach(System.out::println);
 
+		customerRepository.findAllOrderByName2().forEach(System.out::println);
 	}
 }

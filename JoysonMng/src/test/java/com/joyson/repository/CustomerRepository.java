@@ -2,25 +2,21 @@ package com.joyson.repository;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.joyson.domain.Customer;
 
-@Repository
-@Transactional
-public class CustomerRepository {
+//@Repository
+//@Transactional
+public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
+	@Query("SELECT x FROM Customer x ORDER BY x.firstName, x.lastName")
+	List<Customer> findAllOrderByName();
+	
+	@Query(value = "SELECT id, first_name, last_name FROM customers ORDER BY first_name, last_name", nativeQuery = true)
+	List<Customer> findAllOrderByName2();
+	/*
 	@Autowired
 	NamedParameterJdbcTemplate jdbcTemplate;
 	SimpleJdbcInsert insert;
@@ -28,7 +24,9 @@ public class CustomerRepository {
 	@PostConstruct
 	public void init() {
 		insert = new SimpleJdbcInsert(
-				(JdbcTemplate)jdbcTemplate.getJdbcOperations()).withTableName("customers").usingGeneratedKeyColumns("id");
+				(JdbcTemplate)jdbcTemplate.getJdbcOperations())
+				.withTableName("customers")
+				.usingGeneratedKeyColumns("id");
 	}
 	
 	private static final RowMapper<Customer> customerRowMapper = (rs, i) -> {
@@ -37,9 +35,7 @@ public class CustomerRepository {
 		String lastName = rs.getString("last_name");
 		return new Customer(id, firstName, lastName);
 	};
-	
-	//private final ConcurrentMap<Integer, Customer> customerMap = new ConcurrentHashMap<>();
-	
+
 	public List<Customer> findAll(){
 		List<Customer> customers = jdbcTemplate.query("SELECT id, first_name, last_name FROM customers ORDER BY id", 
 				customerRowMapper);
@@ -55,8 +51,8 @@ public class CustomerRepository {
 	public Customer save(Customer customer) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(customer);
 		if(customer.getId() == null) {
-			jdbcTemplate.update("INSERT INTO customers(first_name, last_name) " 
-					+ "values (:firstName, :lastName)", param);
+			Number key = insert.executeAndReturnKey(param);
+			customer.setId(key.intValue());
 		} else {
 			jdbcTemplate.update("UPDATE customers SET first_name=:firstName, last_name=:lastName WHERE id=:id", param);
 		}
@@ -67,5 +63,5 @@ public class CustomerRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		jdbcTemplate.update("DELETE FROM customers WHERE id=:id", param);
 	}
-	
+	*/
 }
