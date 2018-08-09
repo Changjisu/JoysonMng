@@ -8,12 +8,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.joyson.domain.Customer;
 import com.joyson.repository.CustomerRepository;
 
 @EnableAutoConfiguration
-@ComponentScan
+@ComponentScan /* @Controller나 @Service 애너테이션을 붙인 클래스도 컴포넌트 스캔이 가능합니다. */
 @SpringBootApplication
 public class JoysonMngApplication implements CommandLineRunner{
 
@@ -47,9 +50,15 @@ public class JoysonMngApplication implements CommandLineRunner{
 		customerRepository.save(new Customer(null, "B", "b"));
 		customerRepository.save(new Customer(null, "C", "c"));
 		
+		Pageable pageable = new PageRequest(0, 3);
+		Page<Customer> page = customerRepository.findAll(pageable);
 		
-		customerRepository.findAllOrderByName().forEach(System.out::println);
+		System.out.println("한 페이지당 데이터 수 : " + page.getSize());
+		System.out.println("현재 페이지 : " + page.getNumber());
+		System.out.println("전체 페이지 수 : " + page.getTotalPages());
+		System.out.println("전체 데이터 수 : " + page.getTotalElements());
 
-		customerRepository.findAllOrderByName2().forEach(System.out::println);
+		page.getContent().forEach(System.out::println);
+
 	}
 }

@@ -31,6 +31,7 @@ configurations {
 dependencies {
 	compile("org.springframework.boot:spring-boot-devtools")
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-parent')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.0.4.RELEASE'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '2.0.4.RELEASE', ext: 'pom'

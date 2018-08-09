@@ -16,6 +16,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 	
 	@Query(value = "SELECT id, first_name, last_name FROM customers ORDER BY first_name, last_name", nativeQuery = true)
 	List<Customer> findAllOrderByName2();
+
+	//@Query(value = "SELECT id, first_name, last_name FROM customers WHERE id = :id ORDER BY first_name, last_name", nativeQuery = true)
+	//List<Customer> findOne(Integer id);
 	/*
 	@Autowired
 	NamedParameterJdbcTemplate jdbcTemplate;
