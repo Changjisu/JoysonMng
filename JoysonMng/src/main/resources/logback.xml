@@ -8,7 +8,7 @@
 
     <logger name="example.logback.level.grandparents" level="INFO"/>
     <logger name="example.logback.level.grandparents.parents.children" level="INFO"/>
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
