@@ -1,6 +1,7 @@
 package com.joyson.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.joyson.domain.Customer;
 import com.joyson.service.CustomerService;
@@ -46,6 +48,36 @@ public class CustomerController {
 		Customer customer = new Customer();
 		BeanUtils.copyProperties(form, customer);
 		customerService.create(customer);
+		return "redirect:/customers";
+	}
+	
+	@RequestMapping(value = "edit", params = "form", method = RequestMethod.GET)
+	String editForm(@RequestParam Integer id, CustomerForm form) {
+		Optional<Customer> customer = customerService.findById(id);
+		BeanUtils.copyProperties(customer, form);
+		return "customers/edit";
+	}
+	
+	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	String edit(@RequestParam Integer id, @Validated CustomerForm form, BindingResult result) {
+		if(result.hasErrors()) {
+			return editForm(id, form);
+		}
+		Customer customer = new Customer();
+		BeanUtils.copyProperties(form, customer);
+		customer.setId(id);
+		customerService.update(customer);
+		return "redirect:/customers";
+	}
+	
+	@RequestMapping(value = "edit", params = "goToTop")
+	String goToTop() {
+		return "redirect:/customers";
+	}
+	
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	String edit(@RequestParam Integer id) {
+		customerService.delete(id);
 		return "redirect:/customers";
 	}
 }
